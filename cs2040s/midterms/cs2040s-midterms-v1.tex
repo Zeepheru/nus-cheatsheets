@@ -3,7 +3,7 @@
 \usepackage{calc}
 \usepackage{multicol}
 \usepackage{ifthen}
-\usepackage[a4paper,margin=3mm,landscape]{geometry}
+\usepackage[a4paper,margin=3mm,portrait]{geometry}
 \usepackage{amsmath,amsthm,amsfonts,amssymb}
 \usepackage{color,graphicx,overpic}
 \usepackage{hyperref}
@@ -103,8 +103,7 @@
 \begin{document}
 \raggedright
 \footnotesize
-\begin{multicols}{4
-    '}
+\begin{multicols}{3}
 
 
 % multicol parameters
@@ -119,8 +118,9 @@
     \fbox{%
         \parbox{0.8\linewidth}{\centering \textcolor{black}{
             {\Large\textbf{CS2040S}}
-            \\ \normalsize{AY20/21 sem 2 midterms}}
-            \\ {\footnotesize \textcolor{myblue}{github.com/jovyntls}}
+            \\ \normalsize{AY23/24S2 Midterms}}
+            \\ {\footnotesize Original by: \textcolor{myblue}{github.com/jovyntls}}
+            \\ {\footnotesize Modified by: \textcolor{myblue}{github.com/zeepheru}}
         }%
     }
 \end{center}
@@ -214,7 +214,7 @@ Let $T(n) = O(f(n))$ and $S(n) = O(g(n))$
     \item choose at random: runtime is a random variable
 \end{itemize}
 
-\subsection{quickSelect}
+\subsection{QuickSelect}
 \begin{itemize}
     \item $O(n)$ - to find the $k^{\text{th}}$ smallest element
     \item after partitioning, the partition is always in the correct position
@@ -256,23 +256,6 @@ Let $T(n) = O(f(n))$ and $S(n) = O(g(n))$
         \end{itemize}
     \end{itemize}
 \end{itemize}
-
-\subsection{traversal}
-\begin{center}
-    \begin{multicols}{3}
-        \textit{pre-order DFS}
-        \includegraphics[width=0.9\linewidth]{../../CS1231S/images/cs1231s-ch11-preorder}
-        \\* {\tiny\textbf{F-B-A-D-C-E-G-I-H}}
-        
-        \textit{in-order DFS}
-        \includegraphics[width=0.9\linewidth]{../../CS1231S/images/cs1231s-ch11-inorder}
-        \\* {\tiny\textbf{A-B-C-D-E-F-G-H-I}}
-        
-        \textit{post-order DFS}
-        \includegraphics[width=0.9\linewidth]{../../CS1231S/images/cs1231s-ch11-postorder}
-        \\* {\tiny\textbf{A-C-E-D-B-H-I-G-F}}
-    \end{multicols}
-\end{center}
 
 \subsection{AVL Trees}
 \begin{itemize}
@@ -437,7 +420,10 @@ Let $T(n) = O(f(n))$ and $S(n) = O(g(n))$
 
 \hrulefill \\
 
-\begin{multicols}{3}
+\begin{multicols}{2}
+    % what is going on with the headers here?
+    % whatttaaatt
+
     \begin{tightcenter}
         $
         \begin{array}{| c | c | c | c | c | c |}
@@ -456,7 +442,7 @@ Let $T(n) = O(f(n))$ and $S(n) = O(g(n))$
         \end{array} 
         $\
         \begin{tabular}{| c | c |}
-            \multicolumn{2}{c}{sorting invariants}
+            \multicolumn{2}{c}{Sorting Invariants}
             \\\hline\textbf{sort} & \textbf{invariant} (after $k$ iterations)
             \\\hline bubble & largest $k$ elements are sorted
             \\\hline selection & smallest $k$ elements are sorted
@@ -465,7 +451,7 @@ Let $T(n) = O(f(n))$ and $S(n) = O(g(n))$
             \\\hline quick & partition is in the right position
             \\\hline
         \end{tabular} \begin{tabular}{| c | c |}
-            \multicolumn{2}{c}{searching}\\\hline
+            \multicolumn{2}{c}{Searching}\\\hline
             \textbf{search} & \textbf{average} \\\hline
             linear & $O(n)$ \\\hline
             binary & $O(\log n)$ \\\hline
@@ -475,8 +461,9 @@ Let $T(n) = O(f(n))$ and $S(n) = O(g(n))$
             1D range & $O(k + \log n)$ \\\hline
             2D range & $O(k + \log^2 n)$ \\\hline
         \end{tabular}
-        
-        \\ data structures assuming $O(1)$ comparison cost
+
+        \vspace{5pt}
+        Data Structures Assuming $O(1)$ Comparison Cost
         \\* \begin{tabular}{| c | c | c |}\hline
             \textbf{data structure} & \textbf{search} & \textbf{insert}\\\hline
             sorted array & $O(\log n)$ & $O(n)$ \\\hline
@@ -491,11 +478,15 @@ Let $T(n) = O(f(n))$ and $S(n) = O(g(n))$
         \end{tabular}
 
         \ 
-        \\ orders of growth
-        \\* $1 < \log n < \sqrt{n} < n < n \log n < n^2 < n^3 < 2^n < 2^{2n}$
-        \\* $\log_a n < n^a < a^n < n! < n^n$
-
-        orders of growth
+        \subsection{Orders of Growth}
+        \begin{gather*}
+            1 < \log n < \sqrt{n} < n < n \log n < n^2 < n^3 < 2^n < 2^{2n} \\
+            \log_a n < n^a < a^n < n! < n^n
+        \end{gather*}
+        Note that:
+        \begin{equation*}
+            3^n \neq O(2^n) \text{ and } 2^{log(n)} = O(n)
+        \end{equation*}
         \begin{align*}
             T(n) &= 2T(\frac{n}{2}) + O(n) &\Rightarrow O(n \log n)
             \\ T(n) &= T(\frac{n}{2}) + O(n) &\Rightarrow O(n)
