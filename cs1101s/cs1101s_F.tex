@@ -1,0 +1,207 @@
+\documentclass[10pt]{article}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{color,graphicx,overpic}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+
+% Use LuaLaTeX
+\usepackage{emoji}
+
+
+\usepackage[a4paper, left=1cm, right=1cm, top=0.75cm, bottom=0.75cm, portrait]{geometry}
+
+% Turn off header and footer
+\pagestyle{empty}
+
+% Redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+
+% Define BibTeX command
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+% print only section numbers
+\setcounter{secnumdepth}{1}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+%My Environments
+\newtheorem{example}[section]{Example}
+
+
+% -----------------------------------------------------------------------
+
+\begin{document}
+\raggedright
+\footnotesize
+
+
+% ADDITIONAL STUFF
+% dividing line :)
+% \newcommand{\divider}{\noindent\makebox[\linewidth]{\rule{\columnwidth}{0.4pt}}}
+
+\begin{center}
+{\large \textbf{CS1101S Finals Reference AY23/24}\\{by Zeepheru (AY23/24)}}
+\end{center}
+\hrulefill
+
+\begin{multicols}{2}
+
+\section*{Orders of Growth}
+
+\textit{(Limits used for succinctness, not correct.)} \\ 
+\textbf{Big Theta},  \textbf{Big Omega}, and \textbf{Big O}:
+\begin{align*}
+    & \theta(g(n))\; \iff \exists \, k_1, k_2 \in \mathbb{Z}^+ \; \exists \, n_0 \in \mathbb{R}  \\
+    & \hspace{1cm} ( \forall \, n > n_0 (k_{1} \cdot g(n) \leq r(n) \leq k_{2} \cdot g(n))) \\
+    & O(g(n))\; \iff \exists \, k \in \mathbb{Z}^+  ( \lim_{n \to \infty } (k \cdot g(n) \geq r(n) )) \\
+    & \Omega(g(n))\; \iff \exists \, k \in \mathbb{Z}^+  ( \lim_{n \to \infty } (k \cdot g(n) \leq r(n) ))
+\end{align*}
+
+\textbf{Order (smol to big):} $1$, $\log n$, $n$, $n \log n$, $n^{2}$, $n^{3}$, $2^{n}$, $3^{n}$, $n^{n}$ \\
+\smallskip
+
+Note: $r(n)$ has OOGs $\theta(r(n))$, $O(r(n))$, and $\Omega(r(n))$. \\
+
+{\textbf{Common Recurrence Relations}}
+\begin{align*}
+    T(n) & = O(1) + T(n-1) \implies O(n) \\
+        & = O(\log n) + T(n-1) \implies O(n \log n) \\
+        & = O(n) + T(n-1) \implies O(n^2) \\
+        & = O(1) + 2T(n-1) \implies O(2^n) \\
+        & = O(1) + T(\frac{n}{2}) \implies O(\log n) \\
+        & = O(n) + 2T(\frac{n}{2}) \implies O(n \log n) \\ 
+        & = O(n) + T(\frac{n}{2}) \implies O(n) \\
+        & = O(1) + 2T(\frac{n}{2}) \implies O(n)
+\end{align*}
+
+Generally, $T(n) = O(n^k) + T(n-1)  \implies O(n^{k+1})$ \\
+
+\hrulefill
+\section*{Lists}
+
+\textbf{\emoji{star} Check if x is in list xs}
+\begin{verbatim}
+    if (!is_null(member(x, xs))) { }
+\end{verbatim}
+
+\textbf{Remove Duplicates}
+\begin{verbatim}
+    function remove_duplicates(xs) {
+        return accumulate(
+                    (curr, wish) => 
+                        pair(curr, 
+                             filter(x => x !== curr, wish)),
+                    null, xs);
+    }
+\end{verbatim}
+
+\textbf{Permutations}
+\begin{verbatim}
+    function permutations(ys) {
+        // list => list of lists
+        return is_null(ys)
+            ? list(null)
+            : accumulate(append, null,
+                map(x => map(p => pair(x, p),
+                             permutations(remove(x, ys))),
+                    ys));
+    }
+\end{verbatim}
+
+\hrulefill
+
+\section*{Arrays}
+
+\textbf{\emoji{star} Reverse Index}
+\begin{verbatim}
+    A[len - i - 1];
+\end{verbatim}
+
+\textbf{List-array conversion}
+\begin{verbatim}
+    function list_to_array(xs) {
+        const A = [];
+        let i = 0;
+        while (!is_null(xs)) {
+            A[i] = head(xs);
+            xs = tail(xs);
+            i = i + 1;
+        }
+        
+        return A;
+    }
+    
+    function array_to_list(A) {
+        function helper(i) {
+            if (A[i] === undefined) {
+                return null;
+            } else {
+                return pair(A[i], helper(i + 1));
+            }
+        }
+        
+        return helper(0);
+    }
+\end{verbatim}
+
+\hrulefill
+\section*{Reminders :)}
+Return a \verb|block|:
+\begin{verbatim}
+return {...; return x; };  
+\end{verbatim}
+
+\verb|stream_tail| returns \verb|null| if nothing left, \verb|stream_ref| returns \verb|undefined|.\\
+\smallskip
+
+On \verb|equal()|:
+\begin{verbatim}
+    const a = pair(null, null);
+    const b1 = pair(a, a);
+    const b2 = pair(a, a);
+    
+    equal(b1, b2); # returns TRUE
+\end{verbatim}
+
+\subsubsection{QRFs}
+\begin{itemize}
+    \item \verb|integers_from(start)| - Stream.
+    \item \verb|for_each(f, xs)| - Maps functions in place.
+    \item \verb|build_stream/list(f, n)| - $0$ to $n-1$.
+    \item \verb|enum_stream/list(start, end)| - Includes \verb|start| and \verb|end|.
+    \item \verb|eval_stream(s, n)| - Generates list of first $n$ stream values. 
+\end{itemize}
+
+
+% multicol parameters
+% These lengths are set only within the two main columns
+%\setlength{\columnseprule}{0.25pt}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+% ------------------------------ACTUAL CONTENT-----------------------------------
+
+\end{multicols}
+\end{document}
