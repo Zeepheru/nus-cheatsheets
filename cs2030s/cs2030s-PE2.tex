@@ -1,0 +1,436 @@
+\documentclass[10pt, landscape]{article}
+\usepackage[scaled=0.92]{helvet}
+\usepackage{calc}
+\usepackage{multicol}
+\usepackage{ifthen}
+\usepackage[a4paper,margin=3mm,portrait]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{color,graphicx,overpic}
+\usepackage{hyperref}
+\usepackage{newtxtext} 
+\usepackage{enumitem}
+\usepackage[table]{xcolor}
+\usepackage{mathtools}
+
+\usepackage[outputdir=../]{minted} % for code syntax highlighting
+\usepackage{mdframed} % framing, backgrounds
+
+\setlist{nosep}
+
+% for including images
+\graphicspath{ {../images/} }
+
+
+\pdfinfo{
+  /Title (CS2040S.pdf)
+  /Creator (TeX)
+  /Producer (pdfTeX 1.40.0)
+  /Author (Jovyn)
+  /Subject (CS2040S)
+  /Keywords (CS2040S, nus,cheatsheet,pdf)}
+
+% Turn off header and footer
+\pagestyle{empty}
+
+\newenvironment{tightcenter}{%
+  \setlength\topsep{0pt}
+  \setlength\parskip{0pt}
+  \begin{center}
+}{%
+  \end{center}
+}
+
+% redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}%
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand\rmdefault{\sfdefault}
+%  makes nested numbering (e.g. 1.1.1, 1.1.2, etc)
+\renewcommand{\labelenumii}{\theenumii}
+\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
+\renewcommand\labelitemii{•}
+\renewcommand\labelitemiii{•}
+%  convenient absolute value symbol
+\newcommand{\abs}[1]{\vert #1 \vert}
+%  convenient floor and ceiling
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+\newcommand{\ceil}[1]{\lceil #1 \rceil}
+%  convenient modulo
+\newcommand{\Mod}[1]{\ \mathrm{mod}\ #1}
+%  for logical not operator, iff symbol, convenient "if/then"
+\renewcommand{\lnot}{\mathord{\sim}}
+\let\then\rightarrow
+\let\Then\Rightarrow
+%  vectors
+\newcommand{\vv}[1]{\boldsymbol{#1}}
+\newcommand{\VV}[1]{\overrightarrow{#1}}
+%  column vector
+\newcommand{\cvv}[1]{\left(\begin{smallmatrix}#1\end{smallmatrix}\right)}
+\newcommand{\code}[1]{\textcolor{myblue}{\texttt{#1}}}
+\newcommand\bggreen{\cellcolor{green!10}}
+
+\makeatother
+\definecolor{myblue}{cmyk}{1,.72,0,.38}
+\everymath\expandafter{\the\everymath \color{myblue}}
+% Define BibTeX command
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+%% this changes all items (enumerate and itemize)
+\setlength{\leftmargini}{0.5cm}
+\setlength{\leftmarginii}{0.4cm}
+\setlength{\leftmarginiii}{0.5cm}
+\setlist[itemize,1]{leftmargin=2mm,labelindent=1mm,labelsep=1mm}
+\setlist[itemize,2]{leftmargin=3mm,labelindent=1mm,labelsep=1mm}
+\setlist[itemize,3]{leftmargin=3mm,labelindent=1mm,labelsep=1mm}
+
+%My Environments
+\newtheorem{example}[section]{Example}
+
+% -----------------------------------------------------------------------
+
+\begin{document}
+\raggedright
+\footnotesize
+\begin{multicols}{2}
+
+% multicol parameters
+% These lengths are set only within the two main columns
+\setlength{\columnseprule}{0.25pt} % column separator line
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+\begin{center}
+    \fbox{%
+        \parbox{0.8\linewidth}{\centering \textcolor{black}{
+            {\Large\textbf{CS2030S}}
+            \\ \normalsize{AY23/24S2 Practical Examination 2}}
+            \\ {\footnotesize By: \textcolor{myblue}{github.com/zeepheru}}
+        }%
+    }
+\end{center}
+
+% START CONTENT _________________________________>
+\section{Terminal}
+\subsection{Setup}
+\mint{bash}|~/.vimrc|
+
+
+\begin{minted}{bash}
+set hlsearch
+set incsearch
+set number
+
+set background=dark
+color gruvbox
+\end{minted}
+
+
+\subsection{BASH}
+\begin{minted}{bash}
+# delete swap files
+$ find . -name "*.swp" -type f
+$ find . -name "*.swp" -type f -delete
+\end{minted}
+
+\subsection{Testing}
+\begin{minted}{bash}
+# always remember (to remove prior OUT):
+$ rm -rf OUT
+
+# Run with inputs and redirect output
+$ java Ex2 < inputs/Ex2.1.in > OUT
+
+# Check for differences
+$ vim -d OUT outputs/Ex2.1.out
+\end{minted}
+
+\section{VIM}
+(Selected commands only)
+\begin{itemize}
+    \item[] \code{.} - repeat last command
+    \item[]
+    \item[] \textbf{Undo/Redo} 
+    \begin{itemize}
+        \item[] \code{u} - undo | \code{Ctrl} + \code{r} - redo
+        \item[] \code{Ctrl} + \code{u} - Delete all newly added characters in current line (\code{INSERT} mode)
+    \end{itemize}
+    \item[] \textbf{Navigation} 
+    \begin{itemize}
+        \item[] \code{\^} - front of line | \code{\$} - back of line
+    \end{itemize}
+    \item[] \textbf{Insert} 
+    \begin{itemize}
+        \item[] \code{e} - basically \code{x} then \code{i}
+        \item[] \code{i} - before cursor
+        \item[] \code{I} - beginning of line | \code{A} - end of line
+        \item[] \code{o} - new line below | \code{O} - new line above
+        \item[] Can also exit using \code{Ctrl} + \code{c}
+    \end{itemize}
+    \item[] \textbf{Search \textit{(and Replace)}}
+    \begin{itemize}
+        \item[] \code{n} - next occurrence
+        \item[] Replace: \code{:\%s/<search-phrase>/<replace-phrase>/options}
+        \item[] Select words, replace all with confirmation: \verb|:%s/\<search\>/replace/gc|
+    \end{itemize}
+    \item[] \textbf{Registers, Deleting, Yanking}
+    \begin{itemize}
+        \item[] \code{:reg} - show registers (only lines are saved in the history)
+        \item[]
+        \item[] Note that you can also do \code{yw} to yank a word
+        \item[] use above with \code{:"xp} to paste contents of register $x$, eg \code{:"3p}.
+        \item[] \code{p} - paste \textbf{after} cursor | \code{P} - paste \textbf{before} cursor
+    \end{itemize}
+\end{itemize}
+
+\hrulefill
+
+% \end{multicols}
+
+% \hrulefill \\
+% \begin{multicols}{2}
+% \setlength{\columnseprule}{0.25pt}
+
+\section{Code Samples}
+\subsection{equals()}
+
+\begin{mdframed}
+\begin{minted}{java}
+@Override 
+public boolean equals(Object o) {
+  if (o == this) { return true; }
+  if (o == null) { return false; }
+
+  if (o instanceof Lazy<?>) {
+    // IMPORTANT
+    Lazy<?> o = (Lazy<?>) o;
+
+    if (o.get() == null) {
+      return this.get() == null;
+    }
+    
+    return this.get().equals(o.get());
+  }
+  return false;
+}
+\end{minted}
+\end{mdframed}
+
+\columnbreak
+\subsection{Monad example: Try}
+
+\begin{mdframed}
+\begin{minted}{java}
+public abstract class Try<T> {
+  // Constructors
+  public static <T> Try<T> failure(Throwable a) {
+    @SuppressWarnings("unchecked")
+    Try<T> t = (Try<T>) new Failure(a);
+    return t;
+  }
+
+  public static <T> Try<T> success(T value) {
+    return new Success<T>(value);
+  }
+
+  public static <T> Try<T> of(Producer<? extends T> producer) {
+    try {
+      return success(producer.produce());
+    } catch (Throwable e) {
+      return failure(e);
+    }
+  }
+
+  // Nested classes
+  private static class Success<T> extends Try<T> { ... }
+  private static class Failure<T> extends Try<T> { ... }
+}
+\end{minted}
+\end{mdframed}
+
+\subsection{Anonymous Class Example}
+\begin{minted}{java}
+Transformer <Integer, Integer> addThree = 
+    new Transformer<Integer, Integer>() {
+  @Override
+  public Integer transform(Integer t) { return t + 3; }
+};
+\end{minted}
+
+\subsection{Misc}
+\begin{minted}{java}
+// Most General Way: 
+private static final Maybe<?> NONE = new None();
+
+\end{minted}
+
+\section{Misc}
+\subsection{Exceptions}
+Only important checked exception may be \code{java.util.NoSuchElementException}.
+Otherwise, \code{java.lang.}, eg \code{java.lang.NullPointerException}.\\
+\hspace{10 pt}
+
+\begin{multicols}{2}
+\subsection{File Start Order}
+\begin{minted}{java}
+/** ... */
+package ...;
+
+import ...;
+
+public class MyClass<T> { ... }
+\end{minted}
+
+\subsection{Class Order}
+\begin{enumerate}
+    \item Fields
+    \item Constructors
+    \item \textbf{Factory} Methods
+    \item \textbf{Abstract} Methods
+    \item Methods
+    \item \textbf{Inner} Classes
+\end{enumerate}
+\end{multicols}
+    
+\subsection{Other Stuff}
+\code{.map(String::valueOf)} \\
+\textbf{Primitives}
+\begin{itemize}
+    \item \code{byte <: short <: int <: long <: float <: double}
+    \item \code{char <: int}
+\end{itemize}
+
+
+
+\end{multicols}
+
+
+\hrulefill \\
+\pagebreak
+\begin{multicols}{2}
+\setlength{\columnseprule}{0.25pt}
+
+\section{Streams}
+\subsection{API}
+\code{Stream} API (truncated)
+
+\textbf{Create Stream}
+\begin{minted}{java}
+<T> Stream<T> of(T ... values)
+
+<T> Stream<T> iterate(T seed, UnaryOperator<T> f)
+
+<T> Stream<T> iterate(T seed, Predicate<? super T> hasNext, 
+    UnaryOperator<T> f)
+// Terminates when hasNext fails. 
+
+<T> Stream<T> generate(Supplier<T> s)
+
+\end{minted}
+
+\textbf{Modify Stream}
+\begin{minted}{java}
+Stream<T> filter(Predicate<? super T> predicate)
+
+Stream<T> map(Function<? super T,? extends R> mapper)
+
+<R> Stream<R> flatMap(Function<? super T, 
+    ? extends Stream<? extends R>> mapper)
+
+void forEach(Consumer<? super T> action)
+
+Stream<T> distinct()
+// Based on Object.equals(Object o)
+
+Stream<T> sorted()
+
+Stream<T> sorted(Comparator<? super T> comparator)
+
+Stream<T> peek(Consumer<? super T> action)
+// runs action on elements and returns same stream
+
+Stream<T> limit(long maxSize)
+
+Stream<T> takeWhile(Predicate<? super T> predicate)
+
+Stream<T> dropWhile(Predicate<? super T> predicate)
+
+\end{minted}
+
+\textbf{Terminal Operations}
+\begin{minted}{java}
+T reduce(T identity, BinaryOperator<T> accumulator)
+
+<U> U reduce(U identity, BiFunction<U,? super T,U> accumulator, 
+    BinaryOperator<U> combiner)
+// for all u, combiner(identity, u) is equal to u
+// combiner.apply(u, accumulator.apply(identity, t)) 
+//    == accumulator.apply(u, t)
+
+long count()
+
+boolean allMatch(Predicate<? super T> predicate)
+
+boolean anyMatch(Predicate<? super T> predicate)
+
+boolean noneMatch(Predicate<? super T> predicate)
+\end{minted}
+
+\columnbreak
+
+\subsection{Excerpts}
+\begin{minted}{java}
+// __ to Stream
+list.stream();
+Stream.of(array);
+
+// Stream to List
+List<> ... = stream.collect(Collectors.toList());
+
+// Print all
+stream.forEach(System.out::println);
+\end{minted}
+
+\subsection{Default Functional Interfaces}
+
+\begin{minted}{java}
+Consumer<T>.accept()
+
+Function<T,R>.apply()
+
+Predicate<T>.test()
+
+Supplier<T>.get()
+
+UnaryOperator<T>.identity()
+// operand and result same type
+
+Comparator<T>.compare(T o1, T o2)
+// o1 < o2 - negative
+// o1 = o2 - 0
+// o1 > o2 - positive
+// (if o1 and o2 are related to numbers), return o1 - o2
+\end{minted}
+
+
+\end{multicols}
+
+\end{document}
