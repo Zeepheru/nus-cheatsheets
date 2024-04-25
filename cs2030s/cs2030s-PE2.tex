@@ -266,6 +266,19 @@ public abstract class Try<T> {
 \end{minted}
 \end{mdframed}
 
+\subsection{flatMap()}
+\begin{mdframed}
+\begin{minted}{java}
+@Override
+public <R> Try<R> flatMap(Transformer<? super T, 
+    ? extends Try<? extends R>> mapper) {   
+  @SuppressWarnings("unchecked")
+  Try<R> t = (Try<R>) mapper.transform(value);
+  return t;
+}   
+\end{minted}
+\end{mdframed}
+
 \subsection{Anonymous Class Example}
 \begin{minted}{java}
 Transformer <Integer, Integer> addThree = 
