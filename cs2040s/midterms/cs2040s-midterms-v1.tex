@@ -16,15 +16,6 @@
 % for including images
 \graphicspath{ {../images/} }
 
-
-\pdfinfo{
-  /Title (CS2040S.pdf)
-  /Creator (TeX)
-  /Producer (pdfTeX 1.40.0)
-  /Author (Jovyn)
-  /Subject (CS2040S)
-  /Keywords (CS2040S, nus,cheatsheet,pdf)}
-
 % Turn off header and footer
 \pagestyle{empty}
 
@@ -73,11 +64,13 @@
 \newcommand{\VV}[1]{\overrightarrow{#1}}
 %  column vector
 \newcommand{\cvv}[1]{\left(\begin{smallmatrix}#1\end{smallmatrix}\right)}
-\newcommand{\code}[1]{\textcolor{myblue}{\texttt{#1}}}
+\newcommand{\code}[1]{\textcolor{mygreen}{\texttt{#1}}}
+\newcommand{\java}[1]{\mintinline{java}|#1|}
 \newcommand\bggreen{\cellcolor{green!10}}
 
 \makeatother
 \definecolor{myblue}{cmyk}{1,.72,0,.38}
+\definecolor{mygreen}{cmyk}{0.0, 0.66, 0.30, 0.33}
 \everymath\expandafter{\the\everymath \color{myblue}}
 % Define BibTeX command
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
@@ -188,11 +181,11 @@ Let $T(n) = O(f(n))$ and $S(n) = O(g(n))$
         \begin{itemize}
             \item first element as partition. 2 pointers from left to right
             \begin{itemize}
-                \item left pointer moves until element > pivot
-                \item right pointer moves until element < pivot
-                \item swap elements until left = right. 
+                \item left pointer moves until element $>$ pivot
+                \item right pointer moves until element $<$ pivot
+                \item swap elements until left $=$ right. 
             \end{itemize}
-            \item then swap partition and left=right index.
+            \item then swap partition and left $=$ right index.
         \end{itemize}
     \end{itemize}
 \end{itemize}
