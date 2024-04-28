@@ -153,6 +153,7 @@
 \begin{itemize}
     \item Abstract class cannot be instantiated.
     \item Only \textbf{one} method needs to be abstract. 
+    \item $\geq 1$ method is abstract \\ $\implies$ class HAS to be abstract!
 \end{itemize}
 
 \textbf{Interface}
@@ -162,11 +163,17 @@
 \end{itemize} 
 \end{multicols}
 
+\vspace{3 pt}
+\textbf{NOTE}: \java{private} fields/methods are \textbf{not} inherited by children classes. 
+\vspace{3 pt}
+
 \textbf{Primitives}
 \begin{itemize}
     \item \code{byte <: short <: int <: long <: float <: double}
     \item \code{char <: int}
 \end{itemize}
+
+
 
 % a----------------------
 \section{Signatures, Overriding/loading}
@@ -175,7 +182,10 @@
     \item \textbf{YES}: name, number of args, type of args, order of args
     \item \textbf{NO}: name of args, return type, exceptions
     \item Note: generics make a signature different.
+    \item \textbf{Method Descriptor}: method signature \& return type.
 \end{itemize}
+
+\vspace{2 pt}
 An \textbf{overridding} method:
 \begin{itemize}
     \item NOT REQUIRED to throw the same exceptions.
@@ -193,6 +203,10 @@ You cannot overload with the same arg types \textbf{after type erasure}.
 % a----------------------
 \section{OOP Principles}
 \textbf{Encapsulation, Composition, Inheritance\\}
+\textbf{Polymorphism}
+\begin{itemize}
+    \item Method overriding - change how existing code behaves w/o changing the code itself
+\end{itemize}
 \textbf{Information Hiding}
 \begin{itemize}
     \item \textit{“Abstraction barrier”, “publicly accessible”}
@@ -223,6 +237,19 @@ You cannot overload with the same arg types \textbf{after type erasure}.
     \item Use \java{@SafeVarargs} for when \code{T} is generic. 
 \end{itemize}
 
+\subsection{Variances}
+\begin{itemize}
+    \item \textbf{Covariant}: $ S <: T \implies C(S) <: C(T)$
+    \begin{itemize}
+        \item E.g. \code{arrays}
+    \end{itemize}
+    \item \textbf{Contravariant}: $ S <: T \implies C(T) <: C(S)$
+    \item \textbf{Invariant}: Neither.
+    \begin{itemize}
+        \item E.g.\code{generic classes}
+    \end{itemize}
+\end{itemize}
+
 % a----------------------
 \section{Generics, Wildcards}
 Wildcards can be in return types. \\ 
@@ -231,15 +258,15 @@ Generics are generally invariant.
 \subsection{Upper-bounded Wildcard}
 \begin{itemize}
     \item\textbf{\java{Seq<? extends Shape>}}.
-    \item For any type \code{S}, \code{A<S>} <: \code{A<? extends S>}
-    \item Covariance: if \code{S} <: \code{T}, then \code{A<? extends S>} <: \code{A<? extends T>}.
-    \item So in practice, an argument \code{Seq<? extends T>} would match \code{Seq<T>} and \code{Seq<S>}, where \code{S} <: \code{T}.
+    \item For any type \code{S}, \code{A<S>} $<:$ \code{A<? extends S>}
+    \item Covariance: if \code{S} $<:$ \code{T}, then \code{A<? extends S>} $<:$ \code{A<? extends T>}.
+    \item So in practice, an argument \code{Seq<? extends T>} would match \code{Seq<T>} and \code{Seq<S>}, where \code{S} $<:$ \code{T}.
 \end{itemize}
 \subsection{Lower-bounded Wildcard}
 \begin{itemize}
     \item \textbf{\java{Seq<? super Shape>}}
-    \item For any type \code{S}, \code{A<S>} <: \code{A<? super S>}
-    \item Contravariance: if \code{S} <: \code{T}, then \code{A<? super T>} <: \code{A<? super S>}.
+    \item For any type \code{S}, \code{A<S>} $<:$ \code{A<? super S>}
+    \item Contravariance: if \code{S} $<:$ \code{T}, then \code{A<? super T>} $<:$ \code{A<? super S>}.
 \end{itemize}
 
 
@@ -268,7 +295,32 @@ arrays are reifiable - full type information should be available at runtime - no
     \item Anticipated exceptions should be a \textbf{checked exception}.
 \end{enumerate}
 
-\section{Nesting TODO}
+\section{Nesting}
+\begin{itemize}
+    \item \textbf{Inner} class: non-static class in \code{class}. 
+    \begin{itemize}
+        \item Consider a $B$ in an $A$.
+        \item \code{A.B b = a. new B()} is valid initialization code, where \code{A a = new A();}
+        \item \code{this} in \code{B} would refer to \code{B}.
+        \item To access the fields of \code{A} use the \textit{qualified reference} \code{A.this}.
+        \item Not using a \textit{qualified reference} is fine.
+        \item The \textbf{same name} can be used inside and outside an inner class - the closest innermost one will be used. 
+    \end{itemize}
+    \vspace{2 pt}
+    \item \textbf{STATIC nested} class - Operates similarly to a static method. Can only access static fields and methods in outer class. 
+
+    \vspace{2 pt}
+    \item \textbf{Local} class: class in \code{method}. 
+    \begin{itemize}
+        \item Variable capture:
+        \begin{itemize}
+            \item Captures the fields from outer method \textbf{that it needs}. 
+            \item Field has to be \textbf{final} or \textbf{implicitly final} - no reassignment after first initialisation.
+            \item Always captures the outer class of the method: \java{B.this}
+        \end{itemize}
+    \end{itemize}
+    
+\end{itemize}
 
 \subsection{Anonymous Class}
 \begin{multicols}{2}
@@ -336,12 +388,30 @@ Lambdas can be applied sequentially to a value; does not carry side info.
     \item \textbf{Preserving Identity}: \code{functor.map(x -> x)} is the same as \code{functor}
     \item \textbf{Preserving Composition}: \code{functor.map(x -> f(x)).map(x -> g(x))} is the same as \code{functor.map(x -> g(f(x))}.
 \end{itemize}
-\textbf{Note}: Monads are functors. You can write \code{map} using \code{flatMap}!
+\textbf{Rec. Note}: Monads are functors. You can write \code{map} using \code{flatMap}!
 
 
 % a----------------------
 \section{Lambdas}
-\java{ff -> x -> ff.transform(x); } is correct syntax.
+\java{ff -> x -> ff.transform(x); } is correct syntax. \\ 
+In fact, this, $f:X \to Y \to Z$, returning a sequence of $n$ unary functions, is called \textbf{"currying"}.
+\subsection{Funtional Interface}
+\begin{itemize}
+    \item \code{@FunctionalInterface}
+    \item Exactly 1 \textbf{abstract} method. (can contain other stuff)
+\end{itemize}
+
+% ______________________
+\section{Immutability}
+\begin{itemize}
+    \item Fields \code{final}; always \code{return} \textbf{new instance} of obj. 
+    \begin{itemize}
+        \item \textbf{Ease of understanding} - guarantees obj being passed around is the same.
+        \item \textbf{Safe sharing of objects} - eg an origin is always the same.
+        \item \textbf{Safe sharing of internals}
+        \item \textbf{Safe concurrent exec}
+    \end{itemize}
+\end{itemize}
 
 % a----------------------
 \section{Parallel/Async}

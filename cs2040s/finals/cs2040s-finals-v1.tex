@@ -1,9 +1,9 @@
-\documentclass[10pt]{article}
+\documentclass[10pt, landscape]{article}
 \usepackage[scaled=0.92]{helvet}
 \usepackage{calc}
 \usepackage{multicol}
 \usepackage{ifthen}
-\usepackage[a4paper,margin=3mm,portrait]{geometry}
+\usepackage[a4paper,margin=3mm]{geometry}
 \usepackage{amsmath,amsthm,amsfonts,amssymb}
 \usepackage{color,graphicx,overpic}
 \usepackage{hyperref}
@@ -96,7 +96,7 @@
 \begin{document}
 \raggedright
 \footnotesize
-\begin{multicols}{3}
+\begin{multicols}{4}
 
 
 % multicol parameters
@@ -111,7 +111,7 @@
     \fbox{%
         \parbox{0.8\linewidth}{\centering \textcolor{black}{
             {\Large\textbf{CS2040S}}
-            \\ \normalsize{AY23/24S2 Midterms}}
+            \\ \normalsize{AY23/24S2 Finals}}
             \\ {\footnotesize Original by: \textcolor{myblue}{github.com/jovyntls}}
             \\ {\footnotesize Modified by: \textcolor{myblue}{github.com/zeepheru}}
         }%
@@ -203,37 +203,39 @@ Let $T(n) = O(f(n))$ and $S(n) = O(g(n))$
 
 \begin{tightcenter}
     \includegraphics[width=0.8\linewidth]{cs2040s-tree-rotation.png}
-    \\* \textbf{insertion} - max 2 rotations; \textbf{deletion} - recurse all the way up; 
+    \\* \textbf{insertion} - max 2 rotations; \textbf{deletion} - recurse up to root; 
 \end{tightcenter}
 
 \subsubsection{rebalancing}
 [case 1] B is  \textbf{balanced: right-rotate}
 \begin{tightcenter}
     $h(L) = h(M), \quad h(R) = h(M) - 1$
-    \includegraphics[width=0.65\linewidth]{cs2040s-rebalance-case-1.png}
+    % \includegraphics[width=0.65\linewidth]{cs2040s-rebalance-case-1.png}
 \end{tightcenter}
 
 [case 2] B is  \textbf{left-heavy: right-rotate}
 \begin{tightcenter}
     $h(L) = h(M) + 1, \quad h(R) = h(M)$
-    \includegraphics[width=0.65\linewidth]{cs2040s-rebalance-case-2.png}
+    % \includegraphics[width=0.65\linewidth]{cs2040s-rebalance-case-2.png}
 \end{tightcenter}
 
 [case 3] B is  \textbf{right-heavy: left-rotate(v.left), right-rotate(v)}
 \begin{tightcenter}
     $h(L) = h(M) - 1, \quad h(R) = h(L)$
-    \\* \includegraphics[width=0.65\linewidth]{cs2040s-rebalance-case-3-1.png}
-    \\* \includegraphics[width=0.65\linewidth]{cs2040s-rebalance-case-3-2.png}
+    % \\* \includegraphics[width=0.65\linewidth]{cs2040s-rebalance-case-3-1.png}
+    % \\* \includegraphics[width=0.65\linewidth]{cs2040s-rebalance-case-3-2.png}
 \end{tightcenter}
 
-\subsubsection{updating nodes after rotation}
-\begin{tightcenter}
-    weights:
-    \includegraphics[width=0.65\linewidth]{cs2040s-rotate-weights.png}
+Note: need to update nodes (weight/max) aft. rotation
+
+% \subsubsection{updating nodes after rotation}
+% \begin{tightcenter}
+%     weights:
+%     \includegraphics[width=0.65\linewidth]{cs2040s-rotate-weights.png}
     
-    max:
-    \includegraphics[width=0.65\linewidth]{cs2040s-rotate-max.png}
-\end{tightcenter}
+%     max:
+%     \includegraphics[width=0.65\linewidth]{cs2040s-rotate-max.png}
+% \end{tightcenter}
 
 \subsection{binary search trees (BST)}
 \begin{itemize}
@@ -542,7 +544,7 @@ assume chaining \& simple uniform hashing
 %     \item \textbf{KnuthShuffle} $\Then O(n)$ - for (i = n-1..0) \{ swap(i, rand(0, i)) \}
 % \end{itemize}
 
-\textbf{KnuthShuffle} $\Then O(n)$ - for (i = n-1..0) \{ swap(i, rand(0, i)) \}
+\textbf{KnuthShuffle}:  $O(n)$ - for (i = n-1..0) \{ swap(i, rand(0, i)) \}
 
 \section{AMORTIZED ANALYSIS}
 \begin{tightcenter}
@@ -563,7 +565,8 @@ assume chaining \& simple uniform hashing
     % \item \textbf{degree (graph)}: max. degree of a node
     % \item \textbf{in-/out-degree}: number of incoming/outgoing edges
     % \item \textbf{diameter}: max. shortest path
-    % \item even cycles are bipartite!
+    \item even cycles are bipartite!
+    \item \textbf{Strongly connected}: every $v$ is reachable from $u$.
     \item graph is \textbf{dense} if $\abs{E} = \theta(V^2)$
 \end{itemize}
 \begin{tabular}{| c | c | c | c | c |}\hline
