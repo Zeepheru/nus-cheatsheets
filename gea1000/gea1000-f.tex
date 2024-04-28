@@ -3,7 +3,7 @@
 \usepackage{multicol}
 \usepackage{calc}
 \usepackage{ifthen}
-\usepackage[landscape]{geometry}
+\usepackage[a4paper,margin=3mm,portrait]{geometry}
 %\usepackage{hyperref}
 
 \usepackage{newtxtext} 
@@ -77,8 +77,8 @@
                                 {1ex plus .2ex}%
                                 {\normalfont\small\bfseries}}
 % change font
-%\renewcommand{\familydefault}{\sfdefault}
-%\renewcommand\rmdefault{\sfdefault}
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand\rmdefault{\sfdefault}
 \makeatother
 \definecolor{myblue}{cmyk}{1,.72,0,.38}
 \everymath\expandafter{\the\everymath \color{myblue}}
@@ -108,7 +108,7 @@
 \begin{document}
 \raggedright
 \footnotesize
-\begin{multicols*}{4}
+\begin{multicols*}{3}
 
 % multicol parameters
 % These lengths are set only within the two main columns
@@ -180,8 +180,14 @@ Either category or label values (mutually exclusive, variable cannot be placed i
 	\textbf{Dispersion Measures}: Standard deviation, Inter-quartile Range\\
 	Standard deviation: distance between each point and the mean. Measure of data distribution/spread.
 	\includegraphics[width = \linewidth]{variance}
-	Coefficent of Variation: 
-	\includegraphics[width = \linewidth]{variancecoefficient}
+	\textbf{Coefficient of Variation: }
+    \begin{equation*}
+        C.V. = \frac{\sigma}{\mu}
+    \end{equation*}
+    Note that std dev $\sigma \geq 0 \implies C.V. \geq 0$. \\
+    Note that $C.V.$ varies linearly with the data. \\
+    
+    \vspace{5 pt}
 	Median: Middle value of (ascending/descending ordered) data set. Overall median will always be between lowest and highest median amongst all subgroups.\\
 	Quartile 1: 25th percentile value, \\
 	Quartile 3: 75th Percentile value. IQR: Q3-Q1.\\
@@ -213,7 +219,9 @@ Either category or label values (mutually exclusive, variable cannot be placed i
 	\item \textbf{Confounder}: A confounder is a third variable that is associated with both the independent and
 dependent variables whose relationship is being investigated. (Can be positive or negative association.) \\
 They can be addressed by the \textbf{splicing of data} according to the confounding variable or by \textbf{randomized assignment} (general solution across all confounders). 
-	\item \textbf{Observation of the Simpson's paradox} implies that there is definitely a (third) confounding variable present. However, existence of confounder does not necessarily lead to Simpson's paradox, nor does lack of observation imply lack of confounder.
+    \item $\exists\text{ Simpson's} \implies \exists \text{ Confounder}$
+    \item NO: $\exists\text{ Confounder} \implies \exists \text{ Simpson's}$
+    \item NO: $\neg\exists\text{ Simpson's} \implies \neg\exists \text{ Confounder}$
 \end{itemize}
 
 \section{3. Numerical Data}
@@ -235,16 +243,16 @@ They can be addressed by the \textbf{splicing of data} according to the confound
 	\includegraphics[width = \linewidth]{boxplot}
 	\item \textbf{Understanding boxplots: Shape, 
  and Spread.} \\
-	\textbf{Shape}: left-skewed vs right-skewed (variability of data on lower and upper half respectively). \\
-	\textbf{Centre}: Described by Median. Cross represents mean. We can compare the relative positions of the median and mean from the boxplot. \\
-	\textbf{Spread}: IQR gives us idea of the spread for the middle 50\% of the data set, used to measure across different distributions.
+	\textbf{Shape}: left/right-skewed - left tails to the left, vv\\
+	\textbf{Centre}: Described by Median. Cross represents mean. \\
+	\textbf{Spread}: IQR - spread for the middle 50\% of the data set
 \end{itemize}
 
 	\textbf{Boxplots vs. Histograms}:\\
 Histogram: Better sense of shape of distribution of a variable. Boxplot: Better identifies and indicates outliers. Bottom line: Used together to complement each other.
 
 \subsection{Bivariate EDA}
-	Focus on relationship between two variables in a population.
+	Focus on r'ship between two variables in a population.
 \begin{itemize}
 	\item \textbf{Deterministic Relationship}: Value of one variable can be determined exactly from the other. (e.g. Conversion of units of measurement, $m \Leftrightarrow ft$, $^\circ C \Leftrightarrow ^\circ F$.)
 	\item \textbf{Association (Non-Deterministic)} Statistical relation, given one variable value, we can describe average value of the other variable. \\
@@ -260,9 +268,13 @@ Histogram: Better sense of shape of distribution of a variable. Boxplot: Better 
 \end{itemize}
 
 \subsection{Correlation Coefficient, r}
-	Correlation coefficient between two numerical values, r, is a \textbf{measure of linear association} between them. Always ranges between -1 and 1.
+	Correlation coefficient between two numerical values, r, is a \textbf{measure of linear association} between them. 
 \begin{itemize}
-	\item \textbf{Sign and Magnitude of r}: Tells us about the direction of the linear association. If $r>0$, association is positive, when one increases the other tends to increase as well. $r<0$, association is negative, increase in one variable leads to decrease of the other. If $r=1$ or $r=-1$, there is perfect positive/negative association. When $r=0$, there is no linear association. Magnitude of r tells us the strength of the linear association. Approx: (0 - 0.3 weak, 0.3 - 0.7 moderate, 0.7 - 1 strong)
+	\item \textbf{Sign and Magnitude of r}: Tells us about the direction of the linear association. If $r>0$, association is positive, when one increases the other tends to increase as well. v.v. \\
+ If $r=1$ or $r=-1$, there is perfect positive/negative association. \\
+ % When $r=0$, there is no linear association. 
+ % Magnitude of r tells us the strength of the linear association. 
+ $|r|$: (0 - 0.3 weak, 0.3 - 0.7 moderate, 0.7 - 1 strong)
 	\item \textbf{Calculation of r}: \\
 	\centerline{\large r $= \frac{n(\sum xy) - (\sum x)(\sum y)}{\sqrt{[n \sum x^2  - (\sum x)^2][n \sum y^2 - (\sum y)^2] }} $ } ~\\
 	\item \textbf{Properties of r}: r is not affected by adding a number to all values of a variable, or by multiplying a positive number to all values of a variable.
@@ -271,8 +283,15 @@ Histogram: Better sense of shape of distribution of a variable. Boxplot: Better 
 	Outliers can affect the correlation coefficient r significantly.
 \end{itemize}
 
+\subsection{Ecological Correlation}
+Computed using aggregates rather than indiv data. \\
+\begin{itemize}
+    \item \textbf{Ecological Fallacy} - Using ecological corr to conclude indiv level corr
+    \item \textbf{Atomistic Fallacy} - Using indiv level corr to conclude ecological level corr
+\end{itemize}
+
 \subsection{Linear Regression}
-If we believe that two variables are linearly associated, we may model relationship by fitting a straight line to the observed data, known as linear regression.
+% If we believe that two variables are linearly associated, we may model relationship by fitting a straight line to the observed data, known as linear regression.
 \begin{itemize}
 	\item \textbf{The slope of the line} is the amount of change in Y when the value of X increases by 1.
 	\item \textbf{Finding Regression Line: Method of least squares}: Fit the line to minimize the square of error terms. Hence, two regression lines are different and not interchangeable.
@@ -282,15 +301,15 @@ If we believe that two variables are linearly associated, we may model relations
 	where $s_y$ is the standard deviation for y and $s_x$ is the standard deviation for x.
 	
 	\item Important to remember that correlation coefficient is not necessarily equal to gradient of the regression line.
-	\item Extrapolation: \textbf{Prediction beyond the observed range is dangerous (Not advisable)}
-	\item \textbf{Linear Regression on Non-Linear Models}: Model relationship indirectly (e.g. property of log) to form a linear relation.
+	\item Don't \textbf{extrapolate}. 
+	\item \textbf{Non-Linear Data}: Model r'ship indirectly (e.g. property of log) to form linear.
 \end{itemize}
 
 \section{4. Statistical Inference}
-Statistical Inference is the use of samples to draw inferences or conclusions about population in question.
+% Statistical Inference is the use of samples to draw inferences or conclusions about population in question.
 
 \subsection{Probability}
-Probability as a mathematical means to reason about uncertainty.
+% Probability as a mathematical means to reason about uncertainty.
 \begin{itemize}
 	\item \textbf{Sample Space}: Collection of all possible outcomes of a probability experiment.
 	\item \textbf{Event}: Subcollection of the sample space is an event.
@@ -302,25 +321,30 @@ Probability as a mathematical means to reason about uncertainty.
 
 
 \subsection{Conditional Probability and Independence}
-	\textbf{Conditional Probability} is written using the notatoin $P( E \vert F)$ and read as "probability of E given F". 
+	\textbf{Conditional Probability} is written using the notation $P( E \vert F)$ and read as "probability of $E$ given $F$". 
 \\ ~\\	\centerline{ $P( E \vert F ) = \frac{P( E \cap F )}{ P(F)} $ } ~\\
 
+\textbf{Bayes' Theorem} (NIS)
+\begin{equation*}
+    P(A | B) = \frac{P(B | A) \cdot P(A) }{ P(B) }
+\end{equation*}
+
 \begin{itemize}
-	\item \textbf{Mutually Exclusive Events}: No overlap between E and F, meaning not simultaneously possible. Then, $P(E \cap F) = 0 $. If an event F itself cannot occur, then by convention $P(E \cap F) $ is also equal 0.
+	\item \textbf{Mutually Exclusive Events}: No overlap between $E$ and $F$, meaning not simultaneously possible. Then, $P(E \cap F) = 0 $. If an event $F$ itself cannot occur, then by convention $P(E \cap F) $ is also equal $0$.
 	\item \textbf{Law of Total Probability}:
 	\includegraphics[width = \linewidth]{lawoftotalprobability}
 	\item Analogy between Probability and Sampling:
 	\includegraphics[width = \linewidth]{tableanalogy}
 	\item \textbf{Conditional Probabilities}: equivalent to conditional rate:
 	\centerline {$P ( A \vert B ) = rate ( A \vert B ) $}
-	\item \textbf{Independent Events:} For independent events A and B, the probability of A is the same as the probability of A given B.
+	\item \textbf{Independent Events:} For independent events $A$ and $B$, the probability of $A$ is the same as the probability of $A$ given $B$.
 	\centerline {$P(A) = P(A \vert B)$}
 	If we express conditional probability $P(A \vert B)$ as: \\
 	\centerline	{$\frac{P(A \cap B)}{P(B)} $} ~\\
 	then A and B being dependent means that 
 	\centerline {$ P(A) * P(B) = P(A \cap B) $}
 	which is an equivalent definition for two independent events.
-	\item \textbf{Independence as non-association}: A and B are independent event whenever A and B are not associated with each other.
+	\item \textbf{Independence as non-association}: $A$ and $B$ are independent event whenever $A$ and $B$ are not associated with each other.
 	\item Independent Probability Experiments: E.g. Coin toss, where one instance is independent of the other.
 \end{itemize}
 
@@ -333,14 +357,14 @@ A random variable is a numerical variable with \textbf{probabilities assigned to
 	\item For discrete rv, sum of probabilities assigned to each outcome must equals 1. For continuous rv, area under density curve is always equal to 1.
 \end{itemize}
 
-
-\subsection{Normal Distributions}
-A class of continuous random variables. $N(x,y)$. (bell curve god)
-\begin{itemize}
-	\item Normal Distributions only differ by means and variances. (mean $x$, variance $y$).
-	\item \textbf{Common Properties}: Bell-shaped curve, Peak of curve occurs at the mean, Curve is symmetrical about the mean. (Mean = Mode = Median).
-	\includegraphics[width = \linewidth]{normaldistribution}
-\end{itemize}
+% Unnecessary. Removed.
+% \subsection{Normal Distributions}
+% A class of continuous random variables. $N(x,y)$. 
+% \begin{itemize}
+% 	\item Normal Distributions only differ by means and variances. (mean $x$, variance $y$).
+% 	\item \textbf{Common Properties}: Bell-shaped curve, Peak of curve occurs at the mean, Curve is symmetrical about the mean. (Mean = Mode = Median).
+% 	\includegraphics[width = \linewidth]{normaldistribution}
+% \end{itemize}
 
 
 \subsection{Confidence Intervals}
@@ -369,6 +393,7 @@ Using a sample statistic to estimate the population parameter is subjected to in
 \end{itemize}
 
 \subsection{Hypothesis Testing}
+\textbf{NOTE: We only carry out hypothesis test with sample data}. When given population data, all can be determined. \\
 
 	{\small \textbf{1. Null and Alternative Hypothesis.} \\}
 \begin{itemize}
@@ -396,17 +421,16 @@ Using a sample statistic to estimate the population parameter is subjected to in
 \begin{itemize}
 	\item Hence, we \textbf{reject null hypothesis} in favor of alternate if 
 		\textbf{\centerline{p-value $<$ significance} }
-		(logically it is very unlikely)
+		
 	\item However, if \textbf{\centerline{p-value $>$ significance} } 
 		We \textbf{do not reject the null hypothesis} \\ \sout{(cannot accept, does not mean $H_\circ$ is true)} (we don't know if observation is due to chance, inconclusive)
-	\item We only carry out hypothesis test with sample data. When given population data, all can be determined.
 \end{itemize} ~\\
 
 	{\small \textbf{Common Hypothesis Tests:} }
 One-sample t-test and Chi-squared test:
 	\includegraphics[width = \linewidth]{commonhypotest}
 
-
+    \textbf{Note for association:} \\ null - no assoc; alternative - $\exists$ assoc.
 
 
 
