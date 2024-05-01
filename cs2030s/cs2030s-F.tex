@@ -147,8 +147,6 @@
     \item Methods: Accessed through class, cannot access non-static fields. 
 \end{itemize}
 
-\columnbreak{}
-
 \textbf{Abstract}
 \begin{itemize}
     \item Abstract class cannot be instantiated.
@@ -156,10 +154,14 @@
     \item $\geq 1$ method is abstract \\ $\implies$ class HAS to be abstract!
 \end{itemize}
 
+\columnbreak{}
+
 \textbf{Interface}
 \begin{itemize}
     \item All methods in an interface are \code{public abstract} by default.
-    \item \java{I i2 = (I) new A()} would always compile - Compiler thinks \code{A} may implement \code{I}. 
+    \item \java{I i2 = (I) new A()} would always compile - there is a possibility that during \textbf{run-time}, \code{a} is an instance of class that \textbf{extends} \code{A} that implements \code{I}. 
+    \item If \code{I} was a generic interface - \code{I<T>; I<String>}, then a warning - cannot check if \code{A} is an instance of \code{I<String>} - \textbf{type-erased} to \code{I}.
+    \item If \code{A} was \code{final} - then the run-time type of \code{a} is always \code{A} - won't implement the interface! - doesn't compile. 
 \end{itemize} 
 \end{multicols}
 
@@ -202,7 +204,14 @@ You cannot overload with the same arg types \textbf{after type erasure}.
 
 % a----------------------
 \section{OOP Principles}
-\textbf{Encapsulation, Composition, Inheritance\\}
+\textbf{Encapsulation}
+\begin{itemize}
+    \item Composite data types
+    \item Abstraction barrier
+    \item private fields/attributes, public methods
+\end{itemize}
+\textbf{Inheritance} - "is-a" \\
+\textbf{Composition} - "has-a"\\
 \textbf{Polymorphism}
 \begin{itemize}
     \item Method overriding - change how existing code behaves w/o changing the code itself
@@ -218,6 +227,7 @@ You cannot overload with the same arg types \textbf{after type erasure}.
 \end{itemize}
 \textbf{Liskov Substitution Principle}
 \begin{itemize}
+    \item The current \textbf{DESIRED PROPERTY} is important. Often the property that is being modified in a superclass being changed in a subclass.
     \item Let $\varphi(x)$ be a property provable about objects $x$ of type $T$. Then $\varphi(y)$ should be true for objects $y$ of type $S$ where $S<:T$.
     \item $A$ subclass should not break the expectations set by the superclass. If a class $B$ is substitutable for a parent class $A$, then it should be able to pass all test cases of the parent class $A$. If it does not, it is not substitutable → LSP is violated.
     \item Any code written for $A$ would still work if we substitute $A$ with $B$.
@@ -250,6 +260,9 @@ You cannot overload with the same arg types \textbf{after type erasure}.
     \end{itemize}
 \end{itemize}
 
+\subsection{Type Inference}
+The \textbf{most specific} type is taken.
+
 % a----------------------
 \section{Generics, Wildcards}
 Wildcards can be in return types. \\ 
@@ -272,7 +285,8 @@ Generics are generally invariant.
 
 
 \subsection{PECS}
-Producer \code{extends}; Consumer \code{super}.
+Producer \code{extends}; Consumer \code{super}. \\ 
+\textbf{Not needed if question didn't ask for it.}
 
 \subsection{Type Erasure}
 \begin{minted}{java}
@@ -280,7 +294,9 @@ Producer \code{extends}; Consumer \code{super}.
     // becomes
     Integer i = (Integer) A.foo();
 \end{minted}
-Hence why you can't do \java{a instanceof A<String>}.
+Hence why you can't do \java{a instanceof A<String>}. \\
+
+
 \\
 \vspace{2 pt}
 \textbf{Generics and Arrays \\}
