@@ -348,11 +348,11 @@ Note: need to update nodes (weight/max) aft. rotation
         \item an internal node has 1 more child than its number of keys
         \item all leaf nodes must be at the \textbf{same depth} from the root
     \end{enumerate}
-    \item terminology (for a node $z$)
-    \begin{itemize}
-        \item key range - range of keys covered in subtree rooted at $z$
-        \item keylist - list of keys within $z$; treelist - list of $z$'s children
-    \end{itemize}
+    % \item terminology (for a node $z$)
+    % \begin{itemize}
+    %     \item key range - range of keys covered in subtree rooted at $z$
+    %     \item keylist - list of keys within $z$; treelist - list of $z$'s children
+    % \end{itemize}
     \item max height $= O(\log_an) + 1;\quad$ min height $= O(\log_bn)$
     \item \code{search(key)} $\Then O(\log n)$
     \begin{itemize}
@@ -365,9 +365,9 @@ Note: need to update nodes (weight/max) aft. rotation
         \item move median key to parent; re-connect remaining nodes
         \item (if the parent is now unbalanced, recurse upwards; if the root is reached, median key becomes the new root)
     \end{enumerate}
-    \includegraphics[width=0.35\linewidth]{cs2040s-abtree-split-1.png}
+    \includegraphics[width=0.3\linewidth]{cs2040s-abtree-split-1.png}
     $\Then$
-    \includegraphics[width=0.28\linewidth]{cs2040s-abtree-split-2.png}
+    \includegraphics[width=0.24\linewidth]{cs2040s-abtree-split-2.png}
     \item \code{delete(key)} $\Then O(\log n)$
     \begin{itemize}
         \item if the node becomes empty, \code{merge(y, z)} - join it with its left sibling \& replace it with their parent
@@ -635,7 +635,7 @@ assume chaining \& simple uniform hashing
 \subsection{spanning trees}
 \begin{itemize}
     \item any 2 subtrees of the MSTs are also MSTs
-    \item for every cycle, the maximum weight edge is NOT in the MST
+    \item for every cycle, the max weight edge is NOT in the MST
     \item for every partition of the nodes, the minimum weight edge across the cut is in the MST
     \begin{itemize}
         \item for every vertex, the minimum outgoing edge is in the MST.
@@ -771,13 +771,13 @@ assume chaining \& simple uniform hashing
 %     \end{itemize}
 % \end{itemize}
 \begin{align*}
-    T(n) &= 2T(\sfrac{n}{2}) + O(n) &\Rightarrow O(n \log n)
-    \\ T(n) &= T(\sfrac{n}{2}) + O(n) &\Rightarrow O(n)
-    \\ T(n) &= 2T(\sfrac{n}{2}) + O(1) &\Rightarrow O(n)
-    \\ T(n) &= T(\sfrac{n}{2}) + O(1) &\Rightarrow O(\log n)
+    T(n) &= 2T(\frac{n}{2}) + O(n) &\Rightarrow O(n \log n)
+    \\ T(n) &= T(\frac{n}{2}) + O(n) &\Rightarrow O(n)
+    \\ T(n) &= 2T(\frac{n}{2}) + O(1) &\Rightarrow O(n)
+    \\ T(n) &= T(\frac{n}{2}) + O(1) &\Rightarrow O(\log n)
     \\ T(n) &= 2T(n - 1) + O(1) &\Rightarrow O(2^n)
-    \\ T(n) &= 2T(\sfrac{n}{2}) + O(n \log n) &\Rightarrow O(n(\log n)^2)
-    \\ T(n) &= 2T(\sfrac{n}{4}) + O(1) &\Rightarrow O(\sqrt{n})
+    \\ T(n) &= 2T(\frac{n}{2}) + O(n \log n) &\Rightarrow O(n(\log n)^2)
+    \\ T(n) &= 2T(\frac{n}{4}) + O(1) &\Rightarrow O(\sqrt{n})
     \\ T(n) &= T(n - c) + O(n) &\Rightarrow O(n^2)
     \\ & 3^n \neq O(2^n) \text{ and } 2^{log(n)} = O(n)
 \end{align*}
