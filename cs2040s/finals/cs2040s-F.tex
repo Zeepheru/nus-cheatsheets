@@ -164,6 +164,16 @@ Let $T(n) = O(f(n))$ and $S(n) = O(g(n))$
 %     \item max. space incurred \textbf{at any time at any point} (once we exit the function, release all memory that was used)
 % \end{itemize}
 
+\subsection{Peak-Finding}
+\begin{itemize}
+    \item 1D-array: $O(\log n)$
+    \item 2D-array: $O(n \log m)$ or $O(n+m)$
+    \begin{itemize}
+        \item $T(n,m) = T(n/2, m/2)	+ O(n +	m)$
+    \end{itemize}
+\end{itemize}
+
+
 \section{QUICKSORT}
 \begin{itemize}
     \item stable quicksort: $O(\log n)$ space (due to recursion stack)
@@ -258,11 +268,6 @@ Note: need to update nodes (weight/max) aft. rotation
         \item if node has a right subtree: \code{searchMin(v.right)}
         \item else: traverse upwards and return the first parent that contains the key in its left subtree
     \end{itemize}
-    \item \textbf{merkle trees}
-    \begin{itemize}
-        \item binary tree - nodes augmented with a hash of their children
-        \item same root value = identical tree
-    \end{itemize}
 \end{itemize}
 
 \subsection{Trie}
@@ -327,7 +332,10 @@ Note: need to update nodes (weight/max) aft. rotation
 
 \subsection{(a, b)-trees}
 {\scriptsize{e.g. a (2, 4)-tree storing 18 keys}}
-\includegraphics[width=0.8\linewidth]{cs2040s-ab-tree.png}
+\begin{tightcenter}
+    \includegraphics[width=0.8\linewidth]{cs2040s-ab-tree.png}
+\end{tightcenter}
+
 \begin{itemize}
     \item rules
     \begin{enumerate}
@@ -428,13 +436,13 @@ let $cost(h)$ be the cost of the hash function
 \end{itemize}
 
 \subsection{hashCode}
-\textbf{rules for the \code{hashCode()} method}
+\textbf{(Java) rules for the \code{hashCode()} method}
 \begin{enumerate}
     \item always returns the same value, if object hasn't changed
     \item if two objects are equal, they return the same hashCode
 \end{enumerate}
 
-\textbf{rules for the \code{equals} method}
+\textbf{(Java) rules for the \code{equals} method}
 \begin{itemize}
     \item reflexive, symmetric, transitive for $xRy \iff x.equals(y)$ 
     \item consistent - always returns the same answer
@@ -518,7 +526,7 @@ assume chaining \& simple uniform hashing
         \item $P($no false positives$) < p$, need $\frac{n}{m} \leq \frac{1}{k}\log(\frac{1}{1-p^{1/k}})$
     \end{itemize}
     \item optimal $k = \frac{m}{n}\ln 2 \quad \then $ error probability $= 2^{-k}$
-    \item delete operation: store counter instead of 1 bit
+    \item \code{delete} operation: store \textbf{counter} instead of 1 bit
     \item \code{insert, delete, query} $\then O(k)$ 
     \item \code{intersection} (bitwise AND), \code{union} (OR) $\then O(m)$
     \begin{itemize}
@@ -549,7 +557,7 @@ assume chaining \& simple uniform hashing
 \section{AMORTIZED ANALYSIS}
 \begin{tightcenter}
     an operation has \textbf{amortized cost} $T(n)$ if 
-    \\* for every integer $k$, the cost of $k$ operations is $\leq kT(n)$.
+    for every integer $k$, the cost of ANY $k$ operations is $\leq kT(n)$.
 \end{tightcenter}
 \begin{itemize}
     \item \textbf{binary counter ADT}: increment $\then O(1)$
@@ -587,21 +595,21 @@ assume chaining \& simple uniform hashing
     \begin{itemize}
         \item $O(V)$ - \code{DFSvisit} is called exactly once per node
         \item $O(E)$ - \code{DFSvisit} enumerates each neighbour
-        \begin{itemize}
-            \item with adjacency matrix: $O(V)$ per node $\then$ total $O(V^2)$
-        \end{itemize} 
     \end{itemize}
 \end{itemize}
+With adjacency matrix: $O(V)$ per node $\then$ total $O(V^2)$
 
 \subsection{shortest paths}
 \begin{itemize}
     \item \textbf{Bellman-Ford} $\then O(VE)$
     \begin{itemize}
+        \item Works on all weighted graphs.
+        \item Except negative weight cycles.
         \item $\abs{V}$ iterations of relaxing every edge - terminate when an entire sequence of $\abs{E}$ operations have no effect
     \end{itemize}
     \item \textbf{Dijkstra} $\then O((V+E)\log V) = O(E\log V)$
     \begin{itemize}
-        \item no negative weight edges!
+        \item \textbf{no negative weight edges!}
         \item using a PQ to track the min-estimate node, relax its outgoing edges and add incoming nodes to the PQ
         \item $\abs{V}$ times of \code{insert/deleteMin} ($\log V$ each)
         \item $\abs{E}$ times of \code{relax/decreaseKey} ($\log V$ each)
@@ -634,11 +642,11 @@ assume chaining \& simple uniform hashing
 
 \subsection{spanning trees}
 \begin{itemize}
-    \item any 2 subtrees of the MSTs are also MSTs
-    \item for every cycle, the max weight edge is NOT in the MST
-    \item for every partition of the nodes, the minimum weight edge across the cut is in the MST
+    \item any 2 subtrees of the MSTs are also MSTs (cutting an MST)
+    \item for every \textbf{cycle}, the \textbf{max weight edge} is \textbf{NOT} in the MST.
+    \item for every \textbf{partition} of the nodes, the \textbf{minimum weight edge across the cut} is in the MST.
     \begin{itemize}
-        \item for every vertex, the minimum outgoing edge is in the MST.
+        \item for every \textbf{vertex}, the \textbf{minimum outgoing edge} is in the MST.
     \end{itemize}
     \item \textbf{Steiner Tree}: (NP-hard) MST containing a given set of nodes
     \begin{enumerate}
@@ -675,6 +683,11 @@ assume chaining \& simple uniform hashing
     \item \textbf{directed MST with one root} $\then O(E)$
     \begin{itemize}
         \item for every node, add minimum weight \textbf{incoming} edge
+    \end{itemize}
+    \item \textbf{Boruvka}
+    \begin{itemize}
+        \item Start by adding all minimum adjacent edges of all nodes.
+        \item Then add minimum outgoing edges of components.
     \end{itemize}
 \end{itemize}
 
@@ -771,15 +784,16 @@ assume chaining \& simple uniform hashing
 %     \end{itemize}
 % \end{itemize}
 \begin{align*}
-    T(n) &= 2T(\frac{n}{2}) + O(n) &\Rightarrow O(n \log n)
-    \\ T(n) &= T(\frac{n}{2}) + O(n) &\Rightarrow O(n)
-    \\ T(n) &= 2T(\frac{n}{2}) + O(1) &\Rightarrow O(n)
-    \\ T(n) &= T(\frac{n}{2}) + O(1) &\Rightarrow O(\log n)
-    \\ T(n) &= 2T(n - 1) + O(1) &\Rightarrow O(2^n)
-    \\ T(n) &= 2T(\frac{n}{2}) + O(n \log n) &\Rightarrow O(n(\log n)^2)
-    \\ T(n) &= 2T(\frac{n}{4}) + O(1) &\Rightarrow O(\sqrt{n})
-    \\ T(n) &= T(n - c) + O(n) &\Rightarrow O(n^2)
+    T(n) &= 2T(\frac{n}{2}) + O(n) \Rightarrow O(n \log n)
+    \\ T(n) &= T(\frac{n}{2}) + O(n) \Rightarrow O(n)
+    \\ T(n) &= 2T(\frac{n}{2}) + O(1) \Rightarrow O(n)
+    \\ T(n) &= T(\frac{n}{2}) + O(1) \Rightarrow O(\log n)
+    \\ T(n) &= 2T(n - 1) + O(1) \Rightarrow O(2^n)
+    \\ T(n) &= 2T(\frac{n}{2}) + O(n \log n) \Rightarrow O(n(\log n)^2)
+    \\ T(n) &= 2T(\frac{n}{4}) + O(1) \Rightarrow O(\sqrt{n})
+    \\ T(n) &= T(n - c) + O(n) \Rightarrow O(n^2)
     \\ & 3^n \neq O(2^n) \text{ and } 2^{log(n)} = O(n)
+    \\ & n^{1/p} \log^k n < O(n); \; \log^p n < O(n)
 \end{align*}
 % \textbf{master theorem}
 %     \\* $T(n) = aT(\frac{n}{b}) + f(n) \quad a \geq 0, b > 1$
@@ -796,41 +810,21 @@ assume chaining \& simple uniform hashing
 \end{multicols}
 
 
-\section{FIXXXXXXXXX}
-\begin{minipage}{0.5\linewidth}   
-    \begin{tightcenter}
-        $\begin{array}{| c | c | c | c | c | c |}
-            \hline\textbf{sort} & \textbf{best} & \textbf{average} & \textbf{worst} & \textbf{stable?} & \textbf{memory}
-    
-            \\\hline\text{bubble} & \Omega(n) & O(n^2) & O(n^2) & \checkmark & O(1)
-            
-            \\\hline\text{selection} & \Omega(n^2) & O(n^2) & O(n^2) & \times & O(1)
-            
-            \\\hline\text{insertion} & \Omega(n) & O(n^2) & O(n^2) & \checkmark & O(1)
-            
-            \\\hline\text{merge} & \Omega(n\log n) & O(n\log n) & O(n\log n) & \checkmark & O(n)
-            
-            \\\hline\text{quick} & \Omega(n\log n) & O(n\log n) & O(n^2) & \times & O(1)
-
-            \\\hline\text{heap} & \Omega(n\log n) & O(n\log n) & O(n\log n) & \times & O(n)
-            \\\hline
-        \end{array} 
-        $\
-        \begin{tabular}{| c | c |}
-            \multicolumn{2}{c}{sorting invariants}
-            \\\hline\textbf{sort} & \textbf{invariant} (after $k$ iterations)
-            \\\hline bubble & largest $k$ elements are sorted
-            \\\hline selection & smallest $k$ elements are sorted
-            \\\hline insertion & first $k$ slots are sorted
-            \\\hline merge & given subarray is sorted
-            \\\hline quick & partition is in the right position
-            \\\hline
-        \end{tabular} 
-    \end{tightcenter}
-    
-\end{minipage}
-
-\begin{minipage}{0.48\linewidth}   
+% \section{FIXXXXXXXXX}
+\begin{minipage}{0.4\linewidth} 
+    $\begin{array}{| c | c | c | c | c | c | c |}
+        \hline\textbf{sort} & \textbf{best} & \textbf{average} & \textbf{worst} & \textbf{stable?} & \textbf{space} & \textbf{invariant}
+        \\\hline\text{bubble} & \Omega(n) & n^2 & n^2 & \checkmark & O(1) & \text{largest } k \text{ elem sorted}
+        \\\hline\text{selection} & \Omega(n^2) & n^2 & n^2 & \times & O(1) & \text{smallest } k \text{ elem sorted}
+        \\\hline\text{insertion} & \Omega(n) & n^2 & n^2 & \checkmark & O(1) & \text{first } k \text{ slots sorted}
+        \\\hline\text{merge} & \Omega(n\log n) & n\log n & n\log n & \checkmark & O(n) & \text{given subarray sorted}
+        \\\hline\text{quick} & \Omega(n\log n) & n\log n & n^2 & \times & O(1) & \text{partition in right position}
+        \\\hline\text{heap} & \Omega(n\log n) & n\log n & n\log n & \times & O(n) & 
+        \\\hline
+    \end{array} 
+    $\
+\end{minipage}%
+\begin{minipage}{0.6\linewidth}   
     \begin{multicols}{2}
        \section{DYNAMIC PROGRAMMING}
         \begin{enumerate}

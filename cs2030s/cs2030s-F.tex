@@ -243,7 +243,7 @@ You cannot overload with the same arg types \textbf{after type erasure}.
 
 \subsection{Varargs}
 \begin{itemize}
-    \item \java{void foo(T... args)} - \code{args} will be \code{T[]}.
+    \item \java{void foo(T... args)} - \code{args} will be \code{T[]}, an array.
     \item Use \java{@SafeVarargs} for when \code{T} is generic. 
 \end{itemize}
 
@@ -447,10 +447,55 @@ New \java{Thread().start()}'s are async.
     System.out.println(Thread.currentThread().getName()); 
 \end{minted}
 
+\vspace{50 pt}
+
+
+
+\subsection{Parallel Streams}
+\begin{itemize}
+    \item Add \code{.parallel()} before the terminator or use \code{parallelStream()}
+    \item Cannot:
+    \begin{itemize}
+        \item Stateful - result depends on any state that may change during exec of the stream.
+        \item Interfere with stream data - cannot modify \textbf{source}.
+        \item Side effects - use \code{collect()} for ArrayList to avoid.
+    \end{itemize}
+    \item \textbf{Associativity} - operation is parallelisable by reducing each substream and combining them with a \code{combiner} if:
+    \begin{itemize}
+        \item \code{combiner.apply(identity, i)} == \code{i}
+        \item \code{combiner} and \code{accumulator} are associative (order of application doesn't matter)
+        \item \code{combiner} and \code{accumulator} are type-compatible
+    \end{itemize}
+\end{itemize}
 
 \subsection{CompletableFuture}
 Chaining \java{cF.thenApplyAsync().thenApplyAsync()...} will be done \textbf{in order}!
 \\ Also note the necessity to \java{join()} at the end. Otherwise not all will be printed. 
+\vspace{1 pt}
+\begin{itemize}
+    \item \textbf{Instantiate}
+    \begin{itemize}
+        \item \code{.completedFuture(T t)}
+        \item \code{.runAsync(Runnable)}
+        \item \code{.supplyAsync(Supplier<T>)}
+        \item \code{.allOf(...)}, \code{.anyOf(...)} - completes when all/any CF args complete 
+    \end{itemize}
+    \item \textbf{Chaining}
+    \begin{itemize}
+        \item \code{.thenApply()} - map
+        \item \code{.thenCompose()} - flatMap
+        \item \code{.thenCombine(CF, (this, CF2) -> ...} - combine
+        \item \code{Async} versions can run in different thread - \textbf{only if it's part of a different chain}: \code{CF.thenApplyAsync(); CF.thenApplyAsync(); }
+    \end{itemize}
+    \item \textbf{Get Result}
+    \begin{itemize}
+        \item Synchronous - blocks further execution until the \textbf{calling CF} completes.
+        \item \code{.get()} - throws \java{InterruptedException} and \java{ExecutionException}.
+        \item \code{.join()} - doesn't throw checked exception, only \java{CompletionException}.
+    \end{itemize}
+    \item Handling exceptions: \java{.handle((res, e) -> (e == null) ? res : somethingElse);}
+    
+\end{itemize}
 
 \subsection{ForkJoin}
 Always preferable to \code{fork} then \code{join} in a different order. Highest level of parallelism.
@@ -480,15 +525,17 @@ Always preferable to \code{fork} then \code{join} in a different order. Highest 
 
 \hline
 \section{Stack and Heap Examples}
-\begin{multicols}{4}
+\begin{multicols}{2}
+\begin{multicols}{2}
 \includegraphics[scale=0.15]{sh1}
-\columnbreak
-\includegraphics[scale=0.15]{sh2}
-\columnbreak
 \includegraphics[scale=0.35]{sh3}
-\columnbreak
-\includegraphics[scale=0.35]{sh4}
+
+\includegraphics[scale=0.15]{sh2}
+\includegraphics[scale=0.35]{sh4} 
 \end{multicols}
+\includegraphics[scale=0.35]{sh5}
+\end{multicols}
+
 
 \end{document}
 
