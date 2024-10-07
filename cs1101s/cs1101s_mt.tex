@@ -253,7 +253,7 @@ $O(g(n))\; \iff \exists \, k \in \mathbb{Z}^+  ( \lim_{n \to \infty } (k \cdot g
 \\ \\
 $\Omega(g(n))\; \iff \exists \, k \in \mathbb{Z}^+  ( \lim_{n \to \infty } (k \cdot g(n) \leq r(n) )) $
 \\ \\
-\textbf{Order (smol to big):} $1$, $\log n$, $n$, $n \log n$, $n^{2}$, $n^{3}$, $2^{n}$, $3^{n}$, $n^{n}$ \\
+\textbf{Order (smol to big):} \\ $1 < \log n < n < n \log n < n^{2} < n^{3} < 2^{n} < 3^{n} < n^{n}$ \\
 
 Note: $r(n)$ has OOGs $\theta(r(n))$, $O(r(n))$, and $\Omega(r(n))$. \\
 
@@ -263,10 +263,10 @@ Note: $r(n)$ has OOGs $\theta(r(n))$, $O(r(n))$, and $\Omega(r(n))$. \\
         & = O(\log n) + T(n-1) \implies O(n \log n) \\
         & = O(n) + T(n-1) \implies O(n^2) \\
         & = O(1) + 2T(n-1) \implies O(2^n) \\
-        & = O(1) + T(\frac{n}{2}) \implies O(\log n) \\
-        & = O(n) + 2T(\frac{n}{2}) \implies O(n \log n) \\ 
-        & = O(n) + T(\frac{n}{2}) \implies O(n) \\
-        & = O(1) + 2T(\frac{n}{2}) \implies O(n)
+        & = O(1) + T\left(\frac{n}{2}\right) \implies O(\log n) \\
+        & = O(n) + 2T\left(\frac{n}{2}\right) \implies O(n \log n) \\ 
+        & = O(n) + T\left(\frac{n}{2}\right) \implies O(n) \\
+        & = O(1) + 2T\left(\frac{n}{2}\right) \implies O(n)
 \end{align*}
 
 Generally, $T(n) = O(n^k) + T(n-1)  \implies O(n^{k+1})$ \\

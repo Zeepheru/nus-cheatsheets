@@ -143,12 +143,12 @@ Let $T(n) = O(f(n))$ and $S(n) = O(g(n))$
     \item space complexity: once we exit the function, release all memory that was used
 \end{itemize}
 
-% \subsubsection{notable}
-% \begin{itemize}
-%     \item $O(\sqrt{n}\log n) = O(n)$, $\quad O(2^{2n}) \neq O(2^n)$
-%     \item $O(\log (n!)) = O(n\log n) \then$ sterling's approximation
-%     \item $T(n-1) + T(n-2) + \dots + T(1) = 2T(n-1)$
-% \end{itemize}
+\subsubsection{notable}
+\begin{itemize}
+    \item $O(\sqrt{n}\log n) = O(n)$, $\quad O(2^{2n}) \neq O(2^n)$
+    \item $O(\log (n!)) = O(n\log n) \then$ sterling's approximation
+    \item $T(n-1) + T(n-2) + \dots + T(1) = 2T(n-1)$
+\end{itemize}
 
 % \subsubsection{master theorem}
 % $T(n) = aT(\frac{n}{b}) + f(n) \quad a \geq 0, b > 1$
@@ -468,6 +468,7 @@ let $cost(h)$ be the cost of the hash function
 
 \subsection{open addressing - linear probing}
 \begin{itemize}
+    \item increment index until found empty slot.
     \item redefined hash function: $h(k, i) = h(k, 1) + i \Mod{m}$
     \item \code{delete(key)}: use a \textit{tombstone value} - DON'T set to \code{null}
     \item \textbf{performance} (assume $\alpha < 1$ and uniform hashing)
@@ -502,8 +503,9 @@ assume chaining \& simple uniform hashing
 
 \section{SET ADT}
 \begin{itemize}
-    \item $\checkmark$ speed $\checkmark$ space $\checkmark$ no false negatives $\quad\quad \times$ no ordering 
-    % $\quad \times$ may have false positives
+    \item $\checkmark$ speed $\checkmark$ space $\checkmark$ no false negatives 
+    \item $\quad\quad \times$ no ordering 
+    $\quad \times$ may have false positives
 \end{itemize}
 
 \subsection{fingerprint hash table}
@@ -565,6 +567,7 @@ assume chaining \& simple uniform hashing
     \begin{itemize}
         \item search operation: \textit{expected} $O(1)$ (not amortized)
     \end{itemize}
+    \item Amortized runtime $\leq$ worst-case.
 \end{itemize}
 
 \section{GRAPHS}
@@ -794,14 +797,15 @@ With adjacency matrix: $O(V)$ per node $\then$ total $O(V^2)$
     \\ T(n) &= T(n - c) + O(n) \Rightarrow O(n^2)
     \\ & 3^n \neq O(2^n) \text{ and } 2^{log(n)} = O(n)
     \\ & n^{1/p} \log^k n < O(n); \; \log^p n < O(n)
+    \\ & \text{For } f(n) > 0, \; T(n^{1/f(n)}) = O(1)!
 \end{align*}
-% \textbf{master theorem}
-%     \\* $T(n) = aT(\frac{n}{b}) + f(n) \quad a \geq 0, b > 1$
-%     $= \begin{cases}
-%         \Theta(n^{\log_ba}) & \quad \text{ if } f(n) < n^{\log_ba} \text{ polynomially}
-%         \\ \Theta(n^{\log_ba} \log n) & \quad \text{ if } f(n) = n^{\log_ba} 
-%         \\ \Theta(f(n)) & \quad \text{ if } f(n) > n^{\log_ba} \text{ polynomially}
-%     \end{cases}$
+\textbf{master theorem}
+    \\* $T(n) = aT(\frac{n}{b}) + f(n) \quad a \geq 0, b > 1$
+    $= \begin{cases}
+        \Theta(n^{\log_ba}) & \quad \text{ if } f(n) < n^{\log_ba} \text{ polynomially}
+        \\ \Theta(n^{\log_ba} \log n) & \quad \text{ if } f(n) = n^{\log_ba} 
+        \\ \Theta(f(n)) & \quad \text{ if } f(n) > n^{\log_ba} \text{ polynomially}
+    \end{cases}$
 \textbf{orders of growth}
 \\* $1 < \log n < \sqrt{n} < n < n \log n < n^2 < 2^n < 2^{2n}$
 \\* $\log_a n < n^a < a^n < n! < n^n$ 
